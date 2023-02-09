@@ -16,7 +16,7 @@ Terraform module for managing AWS SES and S3 to receive email and put in S3 buck
 
 ## Usage
 
-'''
+```
 module "ses_to_s3" {
     source "../.."
     # Recommend pinning every module to a specific version
@@ -28,7 +28,7 @@ module "ses_to_s3" {
     s3_prefix   = var.s3_prefix
     ses_domain  = var.ses_domain
 }
-'''
+```
 -
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
