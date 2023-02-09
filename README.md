@@ -29,7 +29,6 @@ module "ses_to_s3" {
     ses_domain  = var.ses_domain
 }
 ```
--
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
