@@ -1,6 +1,6 @@
-# terraform-aws-module-template
+# terraform-aws-ses-to-s3
 
-[![Releases](https://img.shields.io/github/v/release/NotableHealth/terraform-aws-ses-to-s3)](https://github.com/NotableHealth/terraform-aws-ses-to-s3/releases/tag/latest)
+[![Releases](https://img.shields.io/github/v/release/NotableHealth/terraform-aws-ses-to-s3)](https://github.com/NotableHealth/terraform-aws-ses-to-s3/releases)
 
 [Terraform Module Registry](https://registry.terraform.io/modules/NotableHealth/ses-to-s3/aws)
 
@@ -18,15 +18,16 @@ Terraform module for managing AWS SES and S3 to receive email and put in S3 buck
 
 ```
 module "ses_to_s3" {
-    source "../.."
-    # Recommend pinning every module to a specific version
-    # version = "x.x.x"
+  source = "git::https://github.com/NotableHealth/terraform-aws-ses-to-s3?ref=v0.1.0"
+  # git ref until can get issue fixed with publishing this on registry
+  # Recommend pinning every module to a specific version
+  # version = "x.x.x"
 
-    name_s3     = var.name_s3
-    namespace   = var.namespace
-    stage       = var.stage
-    s3_prefix   = var.s3_prefix
-    ses_domain  = var.ses_domain
+  name_s3     = var.name_s3
+  namespace   = var.namespace
+  stage       = var.stage
+  s3_prefix   = var.s3_prefix
+  ses_domain  = var.ses_domain
 }
 ```
 
