@@ -12,6 +12,7 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
+  permissions: read-all
   run-lint:
     runs-on: ubuntu-latest
     steps:

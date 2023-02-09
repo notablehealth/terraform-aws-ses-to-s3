@@ -14,6 +14,7 @@ on:
     - cron: '29 19 * * 0'
 
 jobs:
+  permissions: read-all
   tfsec:
     name: Run tfsec sarif report
     runs-on: ubuntu-latest

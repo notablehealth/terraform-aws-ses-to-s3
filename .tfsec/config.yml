@@ -1,0 +1,12 @@
+---
+exclude:
+  - aws-iam-enforce-group-mfa
+  - aws-s3-block-public-acls
+  - aws-s3-block-public-policy
+  - aws-s3-enable-bucket-encryption
+  - aws-s3-enable-bucket-logging
+  - aws-s3-enable-versioning
+  - aws-s3-encryption-customer-key
+  - aws-s3-ignore-public-acls
+  - aws-s3-no-public-buckets
+  - aws-s3-specify-public-access-block

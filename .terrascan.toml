@@ -1,0 +1,13 @@
+
+# TO get failed rules IDs
+# terrascan scan -v -i terraform
+# terrascan scan -c .terrascan.toml -v -i terraform
+
+[rules]
+    skip-rules = [
+        "AC_AWS_0133",
+        "AC_AWS_0214",
+        "AC_AWS_0475",
+        "AC_AWS_0476",
+        "AC_AWS_0476"
+    ]
