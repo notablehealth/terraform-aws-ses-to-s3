@@ -43,7 +43,7 @@ locals {
       abort_incomplete_multipart_upload_days = 1
 
       filter_and = {
-        prefix = "${var.s3_prefix}/"
+        prefix = "${var.ses_rule_set_name}/"
       }
       expiration = {
         days = var.s3_expiration
@@ -119,21 +119,6 @@ module "s3_bucket" {
   s3_object_ownership           = "BucketOwnerEnforced"
   lifecycle_configuration_rules = local.lifecycle_configuration_rules
   source_policy_documents       = [local.s3_bucket_policy]
-
-  #grants = [
-  #  {
-  #    id          = "012abc345def678ghi901" # Canonical user or account id
-  #    type        = "CanonicalUser"
-  #    permissions = ["FULL_CONTROL"]
-  #    uri         = null
-  #  },
-  #  {
-  #    id          = null
-  #    type        = "Group"
-  #    permissions = ["READ", "WRITE"]
-  #    uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
-  #  },
-  #]
 }
 
 ###-------------
@@ -157,24 +142,25 @@ module "ses" {
 
 ## https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_active_receipt_rule_set
 
-
 resource "aws_ses_receipt_rule_set" "s3" {
-  rule_set_name = "s3"
+  rule_set_name = var.ses_rule_set_name
 }
 resource "aws_ses_active_receipt_rule_set" "s3" {
   rule_set_name = aws_ses_receipt_rule_set.s3.rule_set_name
 }
 
 resource "aws_ses_receipt_rule" "s3" {
-  name          = "s3"
+  for_each   = var.ses_rules
+  name       = each.key
+  recipients = each.value.recipients
+
   rule_set_name = aws_ses_receipt_rule_set.s3.rule_set_name
-  recipients    = var.ses_recipents
   enabled       = true
   scan_enabled  = true # spam and virus scan
   tls_policy    = "Require"
   s3_action {
     bucket_name       = module.s3_bucket.bucket_id
-    object_key_prefix = "${var.s3_prefix}/"
+    object_key_prefix = "${var.ses_rule_set_name}/${each.value.prefix}/"
     position          = 1
     #kms_key_arn        # message encryption ? AWS or KMS
     #topic_arn

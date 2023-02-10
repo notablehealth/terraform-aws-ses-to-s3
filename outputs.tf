@@ -48,3 +48,11 @@ output "ses_user_name" {
   description = "SMTP user name"
   value       = module.ses.user_name
 }
+output "ses_rules_recipients" {
+  description = "SES receipt rules"
+  value       = { for k, rule in aws_ses_receipt_rule.s3 : k => rule.recipients }
+}
+output "ses_rules_s3_action" {
+  description = "SES receipt rules"
+  value       = { for k, rule in aws_ses_receipt_rule.s3 : k => rule.s3_action[*] }
+}

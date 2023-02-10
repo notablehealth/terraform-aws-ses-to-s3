@@ -17,14 +17,6 @@ variable "stage" {
 }
 
 ###------------
-### S3
-###------------
-variable "s3_prefix" {
-  description = "S3 prefix for incoming mail"
-  type        = string
-}
-
-###------------
 ### S3 Lifecycle
 ###------------
 variable "s3_expiration" {
@@ -50,7 +42,15 @@ variable "ses_domain" {
   description = "SES domain"
   type        = string
 }
-variable "ses_recipents" {
-  description = "value"
-  type        = list(string)
+variable "ses_rule_set_name" {
+  description = "SES Rule set andm and S3 prefix"
+  type        = string
+  default     = "fax"
+}
+variable "ses_rules" {
+  description = "SES receipt rules"
+  type = map(object({
+    prefix     = string
+    recipients = list(string)
+  }))
 }
