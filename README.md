@@ -74,7 +74,7 @@ module "ses_to_s3" {
 | <a name="input_s3_expiration_noncurrent_days"></a> [s3\_expiration\_noncurrent\_days](#input\_s3\_expiration\_noncurrent\_days) | Expire noncurrent S3 objects in days | `number` | `1` | no |
 | <a name="input_s3_expiration_noncurrent_versions"></a> [s3\_expiration\_noncurrent\_versions](#input\_s3\_expiration\_noncurrent\_versions) | Expire noncurrent S3 objects versions (Versions to keep) | `number` | `1` | no |
 | <a name="input_ses_domain"></a> [ses\_domain](#input\_ses\_domain) | SES domain | `string` | n/a | yes |
-| <a name="input_ses_rule_set_name"></a> [ses\_rule\_set\_name](#input\_ses\_rule\_set\_name) | SES Rule set andm and S3 prefix | `string` | `"fax"` | no |
+| <a name="input_ses_rule_set_name"></a> [ses\_rule\_set\_name](#input\_ses\_rule\_set\_name) | SES Rule set andm and S3 prefix | `string` | n/a | yes |
 | <a name="input_ses_rules"></a> [ses\_rules](#input\_ses\_rules) | SES receipt rules | <pre>map(object({<br>    prefix     = string<br>    recipients = list(string)<br>  }))</pre> | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | Deployment stage of resources | `string` | n/a | yes |
 

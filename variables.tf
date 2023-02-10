@@ -45,7 +45,6 @@ variable "ses_domain" {
 variable "ses_rule_set_name" {
   description = "SES Rule set andm and S3 prefix"
   type        = string
-  default     = "fax"
 }
 variable "ses_rules" {
   description = "SES receipt rules"
