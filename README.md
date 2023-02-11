@@ -17,7 +17,7 @@ Terraform module for managing AWS SES and S3 to receive email and put in S3 buck
 
 ## Usage
 
-```
+```hcl
 module "ses_to_s3" {
   source = "git::https://github.com/NotableHealth/terraform-aws-ses-to-s3?ref=v0.1.0"
   # git ref until can get issue fixed with publishing this on registry
