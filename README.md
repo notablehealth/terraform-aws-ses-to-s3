@@ -1,8 +1,8 @@
 # terraform-aws-ses-to-s3
 
-[![Releases](https://img.shields.io/github/v/release/NotableHealth/terraform-aws-ses-to-s3)](https://github.com/NotableHealth/terraform-aws-ses-to-s3/releases)
+[![Releases](https://img.shields.io/github/v/release/notable-health/terraform-aws-ses-to-s3)](https://github.com/notable-health/terraform-aws-ses-to-s3/releases)
 
-[Terraform Module Registry](https://registry.terraform.io/modules/NotableHealth/ses-to-s3/aws)
+[Terraform Module Registry](https://registry.terraform.io/modules/notable-health/ses-to-s3/aws)
 
 Terraform module for managing AWS SES and S3 to receive email and put in S3 bucket. This does not currently do any of the DNS setup.
 
@@ -19,7 +19,7 @@ Terraform module for managing AWS SES and S3 to receive email and put in S3 buck
 
 ```hcl
 module "ses_to_s3" {
-  source = "git::https://github.com/NotableHealth/terraform-aws-ses-to-s3?ref=v0.1.0"
+  source = "git::https://github.com/notable-health/terraform-aws-ses-to-s3?ref=v0.1.0"
   # git ref until can get issue fixed with publishing this on registry
   # Recommend pinning every module to a specific version
   # version = "x.x.x"
