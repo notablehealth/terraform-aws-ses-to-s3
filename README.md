@@ -4,7 +4,7 @@
 
 [Terraform Module Registry](https://registry.terraform.io/modules/NotableHealth/ses-to-s3/aws)
 
-Terraform module for managing AWS SES and S3 to receive email and put in S3 bucket. This does not currently do any of the DNS set.
+Terraform module for managing AWS SES and S3 to receive email and put in S3 bucket. This does not currently do any of the DNS setup.
 
 ## Features
 
