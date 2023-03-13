@@ -129,7 +129,7 @@ module "s3_bucket" {
 # https://github.com/cloudposse/terraform-aws-ses
 module "ses" {
   source  = "cloudposse/ses/aws"
-  version = "0.22.3"
+  version = "0.23.0"
 
   context = module.label_ses.context
 
