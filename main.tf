@@ -100,7 +100,7 @@ locals {
 
 module "s3_bucket" {
   source  = "cloudposse/s3-bucket/aws"
-  version = "3.0.0"
+  version = "3.1.1"
 
   context = module.label_s3.context
 
