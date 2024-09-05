@@ -7,6 +7,7 @@
 
 # https://github.com/cloudposse/terraform-null-label
 module "label_s3" {
+  #checkov:skip=CKV_TF_1
   source  = "cloudposse/label/null"
   version = "0.25.0"
 
@@ -22,6 +23,7 @@ module "label_s3" {
   #}
 }
 module "label_ses" {
+  #checkov:skip=CKV_TF_1
   source      = "cloudposse/label/null"
   version     = "0.25.0"
   label_order = ["stage", "name", "attributes"]
@@ -99,6 +101,7 @@ locals {
 # https://github.com/cloudposse/terraform-aws-s3-bucket
 
 module "s3_bucket" {
+  #checkov:skip=CKV_TF_1
   source  = "cloudposse/s3-bucket/aws"
   version = "3.0.0"
 
@@ -128,16 +131,18 @@ module "s3_bucket" {
 # https://registry.terraform.io/modules/cloudposse/ses/aws/latest
 # https://github.com/cloudposse/terraform-aws-ses
 module "ses" {
+  #checkov:skip=CKV_TF_1
   source  = "cloudposse/ses/aws"
-  version = "0.22.3"
+  version = "0.25.0"
 
   context = module.label_ses.context
 
   domain = var.ses_domain
   #ses_user_enabled = false # causes invalid json policy
-  #zone_id       = aws_route53_zone.private_dns_zone.zone_id
-  #verify_dkim   = var.verify_dkim
-  #verify_domain = var.verify_domain
+  create_spf_record = true
+  verify_dkim       = true
+  verify_domain     = true
+  zone_id           = data.aws_route53_zone.self.zone_id
 }
 
 ## https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_active_receipt_rule_set

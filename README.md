@@ -52,7 +52,7 @@ module "ses_to_s3" {
 | <a name="module_label_s3"></a> [label\_s3](#module\_label\_s3) | cloudposse/label/null | 0.25.0 |
 | <a name="module_label_ses"></a> [label\_ses](#module\_label\_ses) | cloudposse/label/null | 0.25.0 |
 | <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | cloudposse/s3-bucket/aws | 3.0.0 |
-| <a name="module_ses"></a> [ses](#module\_ses) | cloudposse/ses/aws | 0.22.3 |
+| <a name="module_ses"></a> [ses](#module\_ses) | cloudposse/ses/aws | 0.25.0 |
 
 ## Resources
 
@@ -62,6 +62,7 @@ module "ses_to_s3" {
 | [aws_ses_receipt_rule.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_receipt_rule) | resource |
 | [aws_ses_receipt_rule_set.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_receipt_rule_set) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_route53_zone.self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
 
@@ -91,6 +92,7 @@ module "ses_to_s3" {
 | <a name="output_ses_group_name"></a> [ses\_group\_name](#output\_ses\_group\_name) | The IAM group name |
 | <a name="output_ses_rules_recipients"></a> [ses\_rules\_recipients](#output\_ses\_rules\_recipients) | SES receipt rules |
 | <a name="output_ses_rules_s3_action"></a> [ses\_rules\_s3\_action](#output\_ses\_rules\_s3\_action) | SES receipt rules |
+| <a name="output_ses_spf_record"></a> [ses\_spf\_record](#output\_ses\_spf\_record) | The SPF record for the domain. This is a TXT record that should be added to the domain's DNS settings to allow SES to send emails on behalf of the domain. |
 | <a name="output_ses_user_arn"></a> [ses\_user\_arn](#output\_ses\_user\_arn) | SMTP user ARN |
 | <a name="output_ses_user_name"></a> [ses\_user\_name](#output\_ses\_user\_name) | SMTP user name |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
