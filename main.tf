@@ -103,7 +103,7 @@ locals {
 module "s3_bucket" {
   #checkov:skip=CKV_TF_1
   source  = "cloudposse/s3-bucket/aws"
-  version = "3.0.0"
+  version = "3.1.2"
 
   context = module.label_s3.context
 
