@@ -35,44 +35,64 @@ module "label_ses" {
 ###   S3
 ###-------------
 
-# remove delete markers, add prefix,
+# remove delete markers
 locals {
-  lifecycle_configuration_rules = [
-    {
-      enabled = true
-      id      = "cleanup-mail"
+  # build prefix list from ses_rule_sets and lifecycle rule for each
+  prefixes = [for rule_set, rule in var.ses_rule_sets : rule_set]
+  prefix_rules = [for prefix in local.prefixes : {
+    enabled                                = true
+    id                                     = "cleanup-${prefix}"
+    abort_incomplete_multipart_upload_days = 1
 
-      abort_incomplete_multipart_upload_days = 1
-
-      filter_and = {
-        prefix = "${var.ses_rule_set_name}/"
-      }
-      expiration = {
-        days = var.s3_expiration
-      }
-      noncurrent_version_expiration = {
-        newer_noncurrent_versions = var.s3_expiration_noncurrent_versions
-        noncurrent_days           = var.s3_expiration_noncurrent_days
-      }
-      transition                    = null
-      noncurrent_version_transition = null
+    filter_and = {
+      prefix = "${prefix}/"
     }
-    #,
-    #{
-    #  enabled = true
-    #  id      = "cleanup-delete-markers"
-    #  expiration = {
-    #    #days                         = null
-    #    expired_object_delete_marker = true
-    #  }
-    #  abort_incomplete_multipart_upload_days = 1
-    #  filter_and                             = null
-    #  transition                             = null
-    #  noncurrent_version_expiration          = null
-    #  noncurrent_version_transition          = null
-    #
-    #}
-  ]
+    expiration = {
+      days = var.s3_expiration
+    }
+    noncurrent_version_expiration = {
+      newer_noncurrent_versions = var.s3_expiration_noncurrent_versions
+      noncurrent_days           = var.s3_expiration_noncurrent_days
+    }
+    transition                    = null
+    noncurrent_version_transition = null
+  }]
+  #lifecycle_configuration_rules = [
+  #  {
+  #    enabled = true
+  #    id      = "cleanup-mail"
+  #
+  #    abort_incomplete_multipart_upload_days = 1
+  #
+  #    filter_and = {
+  #      prefix = "${var.ses_rule_set_name}/"
+  #    }
+  #    expiration = {
+  #      days = var.s3_expiration
+  #    }
+  #    noncurrent_version_expiration = {
+  #      newer_noncurrent_versions = var.s3_expiration_noncurrent_versions
+  #      noncurrent_days           = var.s3_expiration_noncurrent_days
+  #    }
+  #    transition                    = null
+  #    noncurrent_version_transition = null
+  #  }
+  #  #,
+  #  #{
+  #  #  enabled = true
+  #  #  id      = "cleanup-delete-markers"
+  #  #  expiration = {
+  #  #    #days                         = null
+  #  #    expired_object_delete_marker = true
+  #  #  }
+  #  #  abort_incomplete_multipart_upload_days = 1
+  #  #  filter_and                             = null
+  #  #  transition                             = null
+  #  #  noncurrent_version_expiration          = null
+  #  #  noncurrent_version_transition          = null
+  #  #
+  #  #}
+  #]
   # skip check
   s3_bucket_policy = jsonencode(
     {
@@ -120,7 +140,7 @@ module "s3_bucket" {
   #kms_master_key_arn =
   #sse_algorithm = "AES256" # is on
   s3_object_ownership           = "BucketOwnerEnforced"
-  lifecycle_configuration_rules = local.lifecycle_configuration_rules
+  lifecycle_configuration_rules = local.prefix_rules #local.lifecycle_configuration_rules
   source_policy_documents       = [local.s3_bucket_policy]
 }
 
@@ -146,28 +166,21 @@ module "ses" {
 }
 
 ## https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_active_receipt_rule_set
-
 resource "aws_ses_receipt_rule_set" "s3" {
-  rule_set_name = var.ses_rule_set_name
+  for_each      = var.ses_rule_sets
+  rule_set_name = each.key
 }
 resource "aws_ses_active_receipt_rule_set" "s3" {
-  rule_set_name = aws_ses_receipt_rule_set.s3.rule_set_name
+  for_each      = var.ses_rule_sets
+  rule_set_name = aws_ses_receipt_rule_set.s3[each.key].rule_set_name
 }
 
-resource "aws_ses_receipt_rule" "s3" {
-  for_each   = var.ses_rules
-  name       = each.key
-  recipients = each.value.recipients
+module "ses_rules" {
+  source = "./modules/ses-rules"
 
-  rule_set_name = aws_ses_receipt_rule_set.s3.rule_set_name
-  enabled       = true
-  scan_enabled  = true # spam and virus scan
-  tls_policy    = "Require"
-  s3_action {
-    bucket_name       = module.s3_bucket.bucket_id
-    object_key_prefix = "${var.ses_rule_set_name}/${each.value.prefix}/"
-    position          = 1
-    #kms_key_arn        # message encryption ? AWS or KMS
-    #topic_arn
-  }
+  for_each          = var.ses_rule_sets
+  s3_bucket_name    = module.s3_bucket.bucket_id
+  ses_rule_set_name = each.key
+  ses_rules         = each.value.rules
+  depends_on        = [aws_ses_active_receipt_rule_set.s3]
 }

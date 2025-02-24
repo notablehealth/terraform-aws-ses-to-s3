@@ -53,13 +53,13 @@ module "ses_to_s3" {
 | <a name="module_label_ses"></a> [label\_ses](#module\_label\_ses) | cloudposse/label/null | 0.25.0 |
 | <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | cloudposse/s3-bucket/aws | 3.0.0 |
 | <a name="module_ses"></a> [ses](#module\_ses) | cloudposse/ses/aws | 0.25.0 |
+| <a name="module_ses_rules"></a> [ses\_rules](#module\_ses\_rules) | ./modules/ses-rules | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
 | [aws_ses_active_receipt_rule_set.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_active_receipt_rule_set) | resource |
-| [aws_ses_receipt_rule.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_receipt_rule) | resource |
 | [aws_ses_receipt_rule_set.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_receipt_rule_set) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_route53_zone.self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
@@ -74,8 +74,7 @@ module "ses_to_s3" {
 | <a name="input_s3_expiration_noncurrent_days"></a> [s3\_expiration\_noncurrent\_days](#input\_s3\_expiration\_noncurrent\_days) | Expire noncurrent S3 objects in days | `number` | `1` | no |
 | <a name="input_s3_expiration_noncurrent_versions"></a> [s3\_expiration\_noncurrent\_versions](#input\_s3\_expiration\_noncurrent\_versions) | Expire noncurrent S3 objects versions (Versions to keep) | `number` | `1` | no |
 | <a name="input_ses_domain"></a> [ses\_domain](#input\_ses\_domain) | SES domain | `string` | n/a | yes |
-| <a name="input_ses_rule_set_name"></a> [ses\_rule\_set\_name](#input\_ses\_rule\_set\_name) | SES Rule set andm and S3 prefix | `string` | n/a | yes |
-| <a name="input_ses_rules"></a> [ses\_rules](#input\_ses\_rules) | SES receipt rules | <pre>map(object({<br>    prefix     = string<br>    recipients = list(string)<br>  }))</pre> | n/a | yes |
+| <a name="input_ses_rule_sets"></a> [ses\_rule\_sets](#input\_ses\_rule\_sets) | SES receipt rule sets | <pre>map(object({<br>    rules = map(object({<br>      prefix     = string<br>      recipients = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | Deployment stage of resources | `string` | n/a | yes |
 
 ## Outputs
@@ -90,8 +89,6 @@ module "ses_to_s3" {
 | <a name="output_ses_domain_identity_arn"></a> [ses\_domain\_identity\_arn](#output\_ses\_domain\_identity\_arn) | The ARN of the SES domain identity |
 | <a name="output_ses_domain_identity_verification_token"></a> [ses\_domain\_identity\_verification\_token](#output\_ses\_domain\_identity\_verification\_token) | A code which when added to the domain as a TXT record will signal to SES that the owner of the domain has authorised SES to act on their behalf. The domain identity will be in state 'verification pending' until this is done. |
 | <a name="output_ses_group_name"></a> [ses\_group\_name](#output\_ses\_group\_name) | The IAM group name |
-| <a name="output_ses_rules_recipients"></a> [ses\_rules\_recipients](#output\_ses\_rules\_recipients) | SES receipt rules |
-| <a name="output_ses_rules_s3_action"></a> [ses\_rules\_s3\_action](#output\_ses\_rules\_s3\_action) | SES receipt rules |
 | <a name="output_ses_spf_record"></a> [ses\_spf\_record](#output\_ses\_spf\_record) | The SPF record for the domain. This is a TXT record that should be added to the domain's DNS settings to allow SES to send emails on behalf of the domain. |
 | <a name="output_ses_user_arn"></a> [ses\_user\_arn](#output\_ses\_user\_arn) | SMTP user ARN |
 | <a name="output_ses_user_name"></a> [ses\_user\_name](#output\_ses\_user\_name) | SMTP user name |

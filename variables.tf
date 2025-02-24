@@ -42,14 +42,23 @@ variable "ses_domain" {
   description = "SES domain"
   type        = string
 }
-variable "ses_rule_set_name" {
-  description = "SES Rule set andm and S3 prefix"
-  type        = string
-}
-variable "ses_rules" {
-  description = "SES receipt rules"
+
+variable "ses_rule_sets" {
+  description = "SES receipt rule sets"
   type = map(object({
-    prefix     = string
-    recipients = list(string)
+    rules = map(object({
+      prefix     = string
+      recipients = list(string)
+    }))
   }))
+  #default = {
+  #  "test" = {
+  #    rules = {
+  #      "tester" = {
+  #        prefix     = "tester"
+  #        recipients = ["tester@mailbox.abc.com"]
+  #      }
+  #    }
+  #  }
+  #}
 }

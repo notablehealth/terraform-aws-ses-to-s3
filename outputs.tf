@@ -40,14 +40,15 @@ output "ses_group_name" {
   description = "The IAM group name"
   value       = module.ses.ses_group_name
 }
-output "ses_rules_recipients" {
-  description = "SES receipt rules"
-  value       = { for k, rule in aws_ses_receipt_rule.s3 : k => rule.recipients }
-}
-output "ses_rules_s3_action" {
-  description = "SES receipt rules"
-  value       = { for k, rule in aws_ses_receipt_rule.s3 : k => rule.s3_action[*] }
-}
+## module.ses_rules
+#output "ses_rules_recipients" {
+#  description = "SES receipt rules"
+#  value       = { for k, rule in aws_ses_receipt_rule.s3 : k => rule.recipients }
+#}
+#output "ses_rules_s3_action" {
+#  description = "SES receipt rules"
+#  value       = { for k, rule in aws_ses_receipt_rule.s3 : k => rule.s3_action[*] }
+#}
 output "ses_spf_record" {
   description = "The SPF record for the domain. This is a TXT record that should be added to the domain's DNS settings to allow SES to send emails on behalf of the domain."
   value       = module.ses.spf_record
