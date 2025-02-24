@@ -6,8 +6,9 @@ variable "s3_bucket_name" {
 variable "ses_rules" {
   description = "SES receipt rules"
   type = map(object({
-    prefix     = string
-    recipients = list(string)
+    base_prefix = optional(string)
+    prefix      = string
+    recipients  = list(string)
   }))
 }
 variable "ses_rule_set_name" {

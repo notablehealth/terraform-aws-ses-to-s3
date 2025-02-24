@@ -38,6 +38,10 @@ variable "s3_expiration_noncurrent_versions" {
 ###------------
 ### SES
 ###------------
+variable "ses_active_receipt_rule_set" {
+  description = "SES active receipt rule set"
+  type        = string
+}
 variable "ses_domain" {
   description = "SES domain"
   type        = string
@@ -47,8 +51,9 @@ variable "ses_rule_sets" {
   description = "SES receipt rule sets"
   type = map(object({
     rules = map(object({
-      prefix     = string
-      recipients = list(string)
+      base_prefix = optional(string)
+      prefix      = string
+      recipients  = list(string)
     }))
   }))
   #default = {

@@ -73,8 +73,9 @@ module "ses_to_s3" {
 | <a name="input_s3_expiration"></a> [s3\_expiration](#input\_s3\_expiration) | Expire current S3 objects in days | `number` | `14` | no |
 | <a name="input_s3_expiration_noncurrent_days"></a> [s3\_expiration\_noncurrent\_days](#input\_s3\_expiration\_noncurrent\_days) | Expire noncurrent S3 objects in days | `number` | `1` | no |
 | <a name="input_s3_expiration_noncurrent_versions"></a> [s3\_expiration\_noncurrent\_versions](#input\_s3\_expiration\_noncurrent\_versions) | Expire noncurrent S3 objects versions (Versions to keep) | `number` | `1` | no |
+| <a name="input_ses_active_receipt_rule_set"></a> [ses\_active\_receipt\_rule\_set](#input\_ses\_active\_receipt\_rule\_set) | SES active receipt rule set | `string` | n/a | yes |
 | <a name="input_ses_domain"></a> [ses\_domain](#input\_ses\_domain) | SES domain | `string` | n/a | yes |
-| <a name="input_ses_rule_sets"></a> [ses\_rule\_sets](#input\_ses\_rule\_sets) | SES receipt rule sets | <pre>map(object({<br>    rules = map(object({<br>      prefix     = string<br>      recipients = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
+| <a name="input_ses_rule_sets"></a> [ses\_rule\_sets](#input\_ses\_rule\_sets) | SES receipt rule sets | <pre>map(object({<br>    rules = map(object({<br>      base_prefix = optional(string)<br>      prefix      = string<br>      recipients  = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | Deployment stage of resources | `string` | n/a | yes |
 
 ## Outputs

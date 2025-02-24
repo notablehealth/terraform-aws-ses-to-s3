@@ -172,7 +172,7 @@ resource "aws_ses_receipt_rule_set" "s3" {
 }
 resource "aws_ses_active_receipt_rule_set" "s3" {
   for_each      = var.ses_rule_sets
-  rule_set_name = aws_ses_receipt_rule_set.s3[each.key].rule_set_name
+  rule_set_name = aws_ses_receipt_rule_set.s3[var.ses_active_receipt_rule_set].rule_set_name
 }
 
 module "ses_rules" {

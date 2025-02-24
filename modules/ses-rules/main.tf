@@ -9,7 +9,7 @@ resource "aws_ses_receipt_rule" "s3" {
   tls_policy    = "Require"
   s3_action {
     bucket_name       = var.s3_bucket_name
-    object_key_prefix = "${var.ses_rule_set_name}/${each.value.prefix}/"
+    object_key_prefix = "${each.value.base_prefix == null ? var.ses_rule_set_name : each.value.base_prefix}/${each.value.prefix}/"
     position          = 1
     #kms_key_arn        # message encryption ? AWS or KMS
     #topic_arn
